@@ -8,6 +8,7 @@
 import { mapGetters } from "vuex";
 import Header from "../components/Header";
 import { GET_ALL_USERS, GET_USER } from "../@store/actions";
+import { CONSTANTS } from "../constants";
 
 export default {
   name: "Home",
@@ -18,11 +19,11 @@ export default {
     pageName: String
   },
   computed: {
-    ...mapGetters("UserModule", { users: GET_ALL_USERS })
+    ...mapGetters(`${CONSTANTS.MODULE.USER}`, { users: GET_ALL_USERS })
   },
   created() {
-    this.$store.dispatch(`UserModule/${GET_ALL_USERS}`);
-    this.$store.dispatch(`UserModule/${GET_USER}`);
+    this.$store.dispatch(`${CONSTANTS.MODULE.USER}/${GET_ALL_USERS}`);
+    this.$store.dispatch(`${CONSTANTS.MODULE.USER}/${GET_USER}`);
   },
   methods: {
     append() {

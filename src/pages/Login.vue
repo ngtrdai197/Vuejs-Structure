@@ -24,6 +24,9 @@
 </template>
 
 <script>
+import { CONSTANTS } from "../constants";
+import { LOGIN, GET_TOKEN } from "../@store/actions";
+import { mapGetters } from "vuex";
 export default {
   name: "Login",
   data() {
@@ -32,11 +35,19 @@ export default {
       password: ""
     };
   },
+  computed: {
+    ...mapGetters(CONSTANTS.MODULE.AUTH, { accessToken: GET_TOKEN })
+  },
   methods: {
-    login(event) {
+    async login(event) {
       event.preventDefault();
-      const user = { username: this.username, password: this.password };
-      this.$store.dispatch("AuthModule/LOGIN", user);
+      await this.$store.dispatch(`${CONSTANTS.MODULE.AUTH}/${LOGIN}`, {
+        username: this.username,
+        password: this.password
+      });
+      if (this.accessToken) {
+        this.$router.push({ name: "home" });
+      }
     }
   }
 };
